@@ -8,6 +8,8 @@ const GITHUB_TOEKN = process.env.REACT_APP_GITHUB_TOKEN
 export const GithubProvider = ({ children }) => {
     const initialState = {
         users: [],
+        user: {}, 
+        repos: [],
         loading: false,
     }
 
@@ -35,6 +37,50 @@ export const GithubProvider = ({ children }) => {
         })
     }
 
+    const getUser = async (login) => {
+        setLoading()
+
+        console.log(login + 'again')
+
+        const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+            headers: {
+                Authorization: `token ${GITHUB_TOEKN}`,
+            },
+        })
+
+        console.log(response)
+
+
+        const data = await response.json()
+        console.log(data)
+        dispatch({
+            type: 'GET_USER',
+            payload: data,
+        })
+    }
+
+    const getUserRepos = async (login) => {
+        setLoading()
+
+        const params = new URLSearchParams({
+            sort: 'created',
+            per_page: 10
+        })
+
+        const response = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
+            headers: {
+                Authorization: `token ${GITHUB_TOEKN}`,
+            },
+        })
+
+        const data = await response.json()
+
+        dispatch({
+            type: 'GET_REPOS',
+            payload: data,
+        })
+    }
+
     const clearUsers = () => dispatch({type: 'CLEAR_USERS'})
 
     // Set Loading
@@ -44,8 +90,12 @@ export const GithubProvider = ({ children }) => {
     value={{
         users: state.users,
         loading: state.loading,
+        user: state.user,
+        repos: state.repos,
         searchUsers,
+        getUser,
         clearUsers,
+        getUserRepos,
     }}>
         {children}
     </GithubContext.Provider>
