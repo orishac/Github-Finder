@@ -117,7 +117,7 @@ function User() {
                                 <div className="text-lg stat-value">
                                     <a href={`https://twitter.com/${twitter_username}`} 
                                     target="_blank"
-                                    rel="norefferer">
+                                    rel="noreferrer">
                                         {twitter_username}
                                     </a>
                                 </div>
