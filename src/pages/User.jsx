@@ -103,7 +103,7 @@ function User() {
                                 </div>
                                 <div className="text-lg stat-value">
                                     <a href={`https://${blog}`} target="_blank"
-                                    rel="norefferer">
+                                    rel="noreferrer">
                                         {blog}
                                     </a>
                                 </div>
